@@ -62,6 +62,7 @@ class ProductShowView(View):
         try:
             product = next(p for p in Product.products if p["id"] == id)
         except StopIteration:
+            print("error")
             return HttpResponseRedirect(reverse('home'))
         #product = Product.products[int(id)-1] 
         viewData["title"] = product["name"] + " - Online Store" 
@@ -93,9 +94,12 @@ class ProductCreateView(View):
         form = ProductForm(request.POST) 
         if form.is_valid(): 
              
-            return redirect("index")  
+            return redirect("confirmation")  
         else: 
             viewData = {} 
             viewData["title"] = "Create product" 
             viewData["form"] = form 
             return render(request, self.template_name, viewData)
+
+class ConfirmationAcceptanceView(TemplateView): 
+    template_name = 'products/confirmation_acceptance.html'
